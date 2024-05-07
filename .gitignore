@@ -1,1 +1,13 @@
 .idea
+.gradle
+!gradle/wrapper/gradle-wrapper.jar
+tests/romedawg_secrets.txt
+*romedawg_secrets.txt
+.env
+tests/.env
+build/libs/*
+./build
+build/
+application-local.properties
+mycredentials.txt
+mycredentials_export.txt
