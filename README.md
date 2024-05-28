@@ -20,3 +20,30 @@ phase 0
 2. Create Twilio account
 3. Link Twilio account to springboot app
 4. Persist data using phone number
+
+
+Domain Model
+
+id
+phone_number
+category
+data
+owner
+date_entry
+remove
+
+
+
+# Building/Running
+
+```
+export POSTGRES_HOST=postgres
+export POSTGRES_DATABASE=romedawg
+export POSTGRES_USERNAME=roman
+export POSTGRES_PASSWORD=password
+
+For postgres connect -> psql -h localhost -p 5432 -U roman -d romedawg
+
+./gradlew build; java -jar  -Dspring.profiles.active=dev ./build/libs/listomania-0.0.1-SNAPSHOT.jar
+
+```

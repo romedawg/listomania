@@ -1,0 +1,33 @@
+databaseChangeLog:
+- changeSet:
+    id: 1
+    author: rome
+    changes:
+      - createTable:
+          tableName: message
+          columns:
+            - column:
+                name: id
+                type: int
+                autoIncrement: true
+                constraints:
+                  primaryKey: true
+                  nullable: false
+            - column:
+                name: phone_number
+                type: varchar(50)
+            - column:
+                name: category
+                type: varchar(255)
+            - column:
+                name: data
+                type: varchar(50)
+            - column:
+                name: owner
+                type: varchar(50)
+            - column:
+                name: date_entry
+                type: varchar(100)
+            - column:
+                name: active
+                type: boolean
