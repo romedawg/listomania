@@ -1,6 +1,7 @@
 package com.romedawg.listomania.controller;
 
 import com.romedawg.listomania.domain.Message;
+import com.romedawg.listomania.exception.CategoryNotFoundException;
 import com.romedawg.listomania.repository.MessageRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,12 +19,11 @@ class MessageController {
         this.messageRepository = messageRepository;
     }
 
-
     @GetMapping("/message/{category}")
     public String message(@PathVariable String category){
         List<String> list =  messageRepository.findMessagesByCategory(category);
         if (list.isEmpty()) {
-            return "category empty: " + category;
+            throw new CategoryNotFoundException(category);
         }
         return list.toString();
     }
