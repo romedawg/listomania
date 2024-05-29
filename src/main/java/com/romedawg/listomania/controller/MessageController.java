@@ -1,9 +1,14 @@
 package com.romedawg.listomania.controller;
 
+import com.romedawg.listomania.domain.Message;
 import com.romedawg.listomania.repository.MessageRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController()
 class MessageController {
 
@@ -13,13 +18,26 @@ class MessageController {
         this.messageRepository = messageRepository;
     }
 
-//    @GetMapping("/category")
-//    public Message message(@PathVariable String category){
-//        return messageRepository.findMessagesByCategory("groceries");
-//    }
 
-    @GetMapping("/category")
+    @GetMapping("/message/{category}")
+    public String message(@PathVariable String category){
+        List<String> list =  messageRepository.findMessagesByCategory(category);
+        if (list.isEmpty()) {
+            return "category empty: " + category;
+        }
+        return list.toString();
+    }
+
+    // Generic static category
+    @GetMapping("/list")
     public String message(){
-        return "testing";
+        List<String> list =  messageRepository.findMessagesByCategory("groceries");
+        return list.toString();
     }
 }
+
+
+/**
+ * Get list of objects
+ * Put into a list -> need to call a function that parses list
+ */

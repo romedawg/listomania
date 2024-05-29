@@ -4,10 +4,12 @@ import com.romedawg.listomania.domain.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
-    @Query("SELECT m.data FROM Message m WHERE m.category=(:category)")
-    Message findMessagesByCategory(@Param("category") String category);
+    @Query("SELECT DISTINCT m.data FROM Message m WHERE m.category=(:category)")
+    List<String> findMessagesByCategory(@Param("category") String category);
 }
