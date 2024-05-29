@@ -19,7 +19,7 @@ public class LoadDatabase {
     CommandLineRunner initDatabase(MessageRepository messageRepository){
         LocalTime localTime = LocalTime.now();
         return args -> {
-            log.info("Preloading Message Table" + messageRepository.save( new Message("7082997663", "groceries", "honey", "rome", localTime, true)));
+            log.info("Preloading Message Table" + messageRepository.save( new Message("7082997663", "groceries", "bread", "rome", localTime, true)));
         };
     }
 }
