@@ -2,7 +2,6 @@
 .gradle
 !gradle/wrapper/gradle-wrapper.jar
 tests/romedawg_secrets.txt
-*romedawg_secrets.txt
 .env
 tests/.env
 build/libs/*

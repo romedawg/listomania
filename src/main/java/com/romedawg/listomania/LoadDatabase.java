@@ -15,11 +15,11 @@ public class LoadDatabase {
 
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
-    @Bean
-    CommandLineRunner initDatabase(MessageRepository messageRepository){
-        LocalTime localTime = LocalTime.now();
-        return args -> {
-            log.info("Preloading Message Table" + messageRepository.save( new Message("7082997663", "groceries", "bread", "rome", localTime, true)));
-        };
-    }
+//    @Bean
+//    CommandLineRunner initDatabase(MessageRepository messageRepository){
+//        LocalTime localTime = LocalTime.now();
+//        return args -> {
+//            log.info("Preloading Message Table" + messageRepository.save( new Message("7082997663", "groceries", "bread", "rome", localTime, true)));
+//        };
+//    }
 }
