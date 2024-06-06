@@ -47,3 +47,12 @@ For postgres connect -> psql -h localhost -p 5432 -U roman -d romedawg
 ./gradlew build; java -jar  -Dspring.profiles.active=dev ./build/libs/listomania-0.0.1-SNAPSHOT.jar
 
 ```
+
+# Testing
+```
+## GET
+curl -v localhost:8080/message/groceries
+
+## POST
+curl -X POST localhost:8080/list -H 'Content-type:application/json' -d '{"phoneNumber": "7082997663", "category": "groceries", "data": "milk"}'
+```

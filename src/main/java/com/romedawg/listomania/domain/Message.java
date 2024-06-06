@@ -31,6 +31,22 @@ public class Message {
     @Column(name = "active", nullable = false)
     private boolean active;
 
+    /***
+     * Constructor.
+     */
+    public Message() {
+        // empty constructor
+    }
+
+    public Message(Builder builder) {
+        this.phoneNumber = builder.phoneNumber;
+        this.category = builder.category;
+        this.data = builder.data;
+        this.owner = builder.owner;
+        this.dateEntry = builder.dateEntry;
+        this.active = builder.active;
+    }
+
     public Message(String phoneNumber, String category, String data, String owner, LocalTime dateEntry, boolean active) {
         this.phoneNumber = phoneNumber;
         this.category = category;
@@ -38,6 +54,49 @@ public class Message {
         this.owner = owner;
         this.dateEntry = dateEntry;
         this.active = active;
+    }
+
+    public static final class Builder {
+        private String phoneNumber;
+        private String category;
+        private String data;
+        private LocalTime dateEntry;
+        private String owner;
+        private Boolean active;
+
+        public Builder setPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public Builder setcategory(String category) {
+            this.phoneNumber = category;
+            return this;
+        }
+
+        public Builder setData(String data) {
+            this.data = data;
+            return this;
+        }
+
+        public Builder setdateEntry(LocalTime dateEntry) {
+            this.dateEntry = dateEntry;
+            return this;
+        }
+
+        public Builder setOwner(String owner) {
+            this.owner = owner;
+            return this;
+        }
+
+        public Builder setActive(Boolean active) {
+            this.active = active;
+            return this;
+        }
+
+        public Message build(){
+            return new Message(this);
+        }
     }
 
     public Long getId() {
