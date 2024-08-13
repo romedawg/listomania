@@ -3,26 +3,29 @@ package com.romedawg.listomania.domain;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="user")
-public class User {
+@Table(name="person")
+public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
+    @Column(name = "person_id", nullable = false)
     private Long id;
 
-    @Column(name = "phone_number", nullable = false)
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "phone_number")
+//    @Column(name = "phone_number", nullable = false)
+//    private Set<Message> messages;
+
+    @Column(name = "phone_number", nullable = false, unique = true)
     private String phoneNumber;
 
     @Column(name = "email", nullable = false)
     private String email;
 
-    public User(String phoneNumber, String email) {
+    public Person(String phoneNumber, String email) {
         this.phoneNumber = phoneNumber;
         this.email = email;
     }
-
-    public User() {
+    public Person() {
     }
 
     public String getPhoneNumber() {

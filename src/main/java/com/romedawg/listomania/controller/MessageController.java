@@ -38,7 +38,6 @@ class MessageController {
         List<String> list =  messageRepository.findMessagesByCategory("groceries");
         return list.toString();
     }
-
     @PostMapping("/list")
     public String postMessage(@RequestBody Message message){
         message.setDateEntry(LocalTime.now());

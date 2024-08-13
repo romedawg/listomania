@@ -13,8 +13,9 @@ public class Message {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "phone_number", nullable = false)
-    private String phoneNumber;
+    @ManyToOne()
+    @JoinColumn(table = "message", name = "person_id", nullable = false)
+    private Person person;
 
     @Column(name = "category", nullable = false)
     private String category;
@@ -39,7 +40,7 @@ public class Message {
     }
 
     public Message(Builder builder) {
-        this.phoneNumber = builder.phoneNumber;
+        this.person = builder.user;
         this.category = builder.category;
         this.data = builder.data;
         this.owner = builder.owner;
@@ -47,8 +48,8 @@ public class Message {
         this.active = builder.active;
     }
 
-    public Message(String phoneNumber, String category, String data, String owner, LocalTime dateEntry, boolean active) {
-        this.phoneNumber = phoneNumber;
+    public Message(Person user, String category, String data, String owner, LocalTime dateEntry, boolean active) {
+        this.person = user;
         this.category = category;
         this.data = data;
         this.owner = owner;
@@ -57,20 +58,20 @@ public class Message {
     }
 
     public static final class Builder {
-        private String phoneNumber;
+        private Person user;
         private String category;
         private String data;
         private LocalTime dateEntry;
         private String owner;
         private Boolean active;
 
-        public Builder setPhoneNumber(String phoneNumber) {
-            this.phoneNumber = phoneNumber;
+        public Builder setUser(Person user) {
+            this.user = user;
             return this;
         }
 
         public Builder setcategory(String category) {
-            this.phoneNumber = category;
+            this.category = category;
             return this;
         }
 
@@ -107,12 +108,12 @@ public class Message {
         this.id = id;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     public String getCategory() {
