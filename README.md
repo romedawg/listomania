@@ -55,4 +55,10 @@ curl -v localhost:8080/message/groceries
 
 ## POST
 curl -X POST localhost:8080/list -H 'Content-type:application/json' -d '{"phoneNumber": "7082997663", "category": "groceries", "data": "milk"}'
+
+romedawg=# select p.phone_number, m.data from message as m, person as p where m.person_id = p.person_id AND m.active = true;
+ phone_number | data
+--------------+-------
+ 7082997663   | bread
+(1 row)
 ```
