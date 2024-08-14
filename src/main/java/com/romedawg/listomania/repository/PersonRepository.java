@@ -9,6 +9,12 @@ import java.util.List;
 
 public interface PersonRepository extends JpaRepository<Person, Long> {
 
-    @Query("SELECT DISTINCT p.id, p.email FROM Person p WHERE p.phoneNumber=(:phoneNumber)")
-    Person findPersonByPhoneNumber(@Param("phoneNumber") String category);
+    @Query("SELECT DISTINCT p.id FROM Person p WHERE p.phoneNumber=(:phoneNumber)")
+    Integer findPersonByPhoneNumber(@Param("phoneNumber") String phoneNumber);
+
+    @Query("SELECT p FROM Person p WHERE p.phoneNumber=(:phoneNumber)")
+    List<Person> findPerson(@Param("phoneNumber") String category);
+
+//    @Query("SELECT p.phoneNumber, p.email FROM Person p WHERE p.phoneNumber=(:phoneNumber)")
+//    List<Person> findPerson(@Param("phoneNumber") String category);
 }
