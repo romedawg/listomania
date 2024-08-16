@@ -2,6 +2,7 @@ package com.romedawg.listomania.controller;
 
 import com.romedawg.listomania.LoadDatabase;
 import com.romedawg.listomania.domain.Message;
+import com.romedawg.listomania.domain.Person;
 import com.romedawg.listomania.exception.CategoryNotFoundException;
 import com.romedawg.listomania.repository.MessageRepository;
 import com.romedawg.listomania.repository.PersonRepository;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController()
 class MessageController {
@@ -42,6 +44,16 @@ class MessageController {
     }
     @PostMapping("/list")
     public String postMessage(@RequestBody Message message){
+
+        log.info("New message, check if person exists");
+
+        List<Person> personID = personLookup(message.getPerson().getPhoneNumber());
+
+        if (personID.get(0).getId() == 0){
+            log.info("Cannot save item, phone number does not exist");
+            return "failed";
+        };
+
         message.setDateEntry(LocalTime.now());
         // if the active category is not set, set it to true by default.
         // maybe this should just be in the domain object(true by default) with the ability to update to false.
@@ -49,16 +61,18 @@ class MessageController {
             message.setActive(true);
         };
 
+        message.setPerson(personID.get(0));
         messageRepository.save(message);
+        log.info("message created for " + message.getPerson().getPhoneNumber());
         return "success";
     }
 
-    private String personLookup(String phoneNumber){
+    private List<Person> personLookup(String phoneNumber){
 
-        personRepository.findPersonByPhoneNumber(phoneNumber);
+        log.info("Instantiate findPerson with phone number " + phoneNumber);
+        List<Person> personLookup = personRepository.findPerson(phoneNumber);
 
-        return "";
-
+        return personLookup;
     }
 
 }
