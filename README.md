@@ -1,4 +1,4 @@
-# LaundryList
+# Overview
 
 Small app that helps manage tracking store items when you think of them. Just need to text the number 'Store_Name' & 'item' 
 and you'll be able pull this list when you're at said store.

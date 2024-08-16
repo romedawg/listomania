@@ -25,7 +25,15 @@ public class Person {
         this.phoneNumber = phoneNumber;
         this.email = email;
     }
+    public Person(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     public Person() {
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getPhoneNumber() {

@@ -108,6 +108,10 @@ public class Message {
         this.id = id;
     }
 
+    public Integer getPersonId() {
+        return Math.toIntExact(person.getId());
+    }
+
     public Person getPerson() {
         return person;
     }
