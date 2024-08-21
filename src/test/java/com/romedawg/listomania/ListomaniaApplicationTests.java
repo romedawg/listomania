@@ -5,6 +5,8 @@ import com.romedawg.listomania.domain.Person;
 import com.romedawg.listomania.repository.MessageRepository;
 import com.romedawg.listomania.repository.PersonRepository;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +17,8 @@ import java.util.Optional;
 @SpringBootTest
 @ActiveProfiles("test")
 class ListomaniaApplicationTests {
+
+    private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
     @Autowired
     private PersonRepository personRepository;
@@ -31,6 +35,7 @@ class ListomaniaApplicationTests {
         Person person = new Person(phoneNumber,email);
         personRepository.save(person);
 
+        log.info("TESTING inserting some data into messages");
         messageRepository.save( new Message(person, "groceries", "bread", "rome", localTime, true));
 	}
 
