@@ -8,12 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalTime;
-import java.util.Optional;
 @SpringBootTest
 @ActiveProfiles("test")
 class ListomaniaApplicationTests {
@@ -30,8 +28,8 @@ class ListomaniaApplicationTests {
 	void domainPersists() {
 
         LocalTime localTime = LocalTime.now();
-        String phoneNumber = "70812344567";
-        String email = "JackBurton@gmail.com";
+        String phoneNumber = "1234567890";
+        String email = "ArtVandalay@gmail.com";
         Person person = new Person(phoneNumber,email);
         personRepository.save(person);
 

@@ -62,6 +62,7 @@ class MessageController {
         };
 
         message.setPerson(personID.get(0));
+
         messageRepository.save(message);
         log.info("message created for " + message.getPerson().getPhoneNumber());
         return "success";
@@ -73,6 +74,8 @@ class MessageController {
         List<Person> personLookup = personRepository.findPerson(phoneNumber);
 
         return personLookup;
+
+
     }
 
 }
