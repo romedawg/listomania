@@ -1,15 +1,18 @@
 # Overview
 
-Small app that helps manage tracking store items when you think of them. Just need to text the number 'Store_Name' & 'item' 
-and you'll be able pull this list when you're at said store.
+Small app that helps manage ongoing lists when you think of them. 
+ - Just need to text the number 'Store_Name' & 'item' and you'll be able to pull this list when it's convenient.
+ - Example
+   -  I need more electric tape when I go to hardware store
+     - Text -> hardware electric tabe
+   - Next time you're at the store text xxx-xxx-xxxx - hardware pull your list
+     - Can clean up same way using text or in the UI
 
-For example, when you think of it, you can text Grocery Butter -> This will Create or Amend a list grouped under "Grocery".
-So that when you're at the grocery store, you can pull this list when necessary.
 
 Other examples
- - Home Depot -> Air Filters
- - Costco -> Brisket
- - Target -> Deodorant
+ - grocery -> honey
+ - Costco -> brisket
+ - Target -> kids supplies
 
 
 Put Message -> Twilio Number -> API -> Parse Logic -> persist to database
