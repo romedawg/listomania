@@ -1,0 +1,35 @@
+version: 0.2
+
+env:
+  variables:
+    SPRING_ACTIVE_PROFILE: "dev"
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+  pre_build:
+    commands:
+      - echo Running tests
+      - ./gradlew test
+  build:
+    commands:
+      - echo Building with Gradle
+      - if [ "$CODEBUILD_BUILD_ENV" = "production" ]; then
+        ./gradlew clean build -Pprofile=prod;
+        else
+        ./gradlew clean build -Pprofile=$SPRING_ACTIVE_PROFILE;
+        fi
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+
+
+artifacts:
+  files:
+    - build/libs/**/*.jar
+
+cache:
+  paths:
+    - '/root/.gradle/**/*'

@@ -2,34 +2,33 @@ version: 0.2
 
 env:
   variables:
-    SPRING_ACTIVE_PROFILE: "dev"
+    AWS_DEFAULT_REGION: "us-east-2"
+    AWS_ACCOUNT_ID: 131261850621
+    IMAGE_REPO_NAME: listomania
+    IMAGE_TAG: lastet
 
 phases:
   install:
-    runtime-versions:
-      java: corretto17
-  pre_build:
     commands:
-      - echo Running tests
-      - ./gradlew test
-  build:
-    commands:
-      - echo Building with Gradle
-      - if [ "$CODEBUILD_BUILD_ENV" = "production" ]; then
-        ./gradlew clean build -Pprofile=prod;
-        else
-        ./gradlew clean build -Pprofile=$SPRING_ACTIVE_PROFILE;
-        fi
-
-  post_build:
-    commands:
-      - echo Build completed on `date`
-
-
-artifacts:
-  files:
-    - build/libs/**/*.jar
-
-cache:
-  paths:
-    - '/root/.gradle/**/*'
+      - pip3 install -q awscli --user
+    pre_build:
+      commands:
+        ### Login to Amazon ECR
+        - echo Logging in to Amazon ECR...
+        - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+        ### Pulling the image
+        - echo Pulling latest image from Docker Hub
+        - docker pull $IMAGE_REPO_NAME:$IMAGE_TAG
+        ### Creating the ECR repository
+        - aws ecr describe-repositories --repository-names ${IMAGE_REPO_NAME} || aws ecr create-repository --repository-name ${IMAGE_REPO_NAME}
+    build:
+      commands:
+        ### Building the image 
+        - echo Build started on `date`
+        - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+        - echo Build completed on `date`
+    post_build:
+      commands:
+        ### Publish the docker image to ECR
+        - echo Pushing the Docker image...
+        - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
