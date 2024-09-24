@@ -1,4 +1,10 @@
 ## Things to do
+
+## TOP DAWG
+ - Create users dynamicaly or through UI/Cognito/CLI
+   - Verification
+ - 
+
 # Message Controller
 - In Progress - Get list of objects
   - Active
