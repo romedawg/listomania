@@ -4,7 +4,7 @@ Small app that helps manage ongoing lists when you think of them.
  - Just need to text the number 'Store_Name' & 'item' and you'll be able to pull this list when it's convenient.
  - Example
    -  I need more electric tape when I go to hardware store
-     - Text -> hardware electric tabe
+     - Text -> hardware electric tape
    - Next time you're at the store text xxx-xxx-xxxx - hardware pull your list
      - Can clean up same way using text or in the UI
 
@@ -37,7 +37,7 @@ remove
 
 
 
-# Building/Running
+# Building/Running Locally
 
 ```
 export POSTGRES_HOST=postgres
@@ -64,4 +64,22 @@ romedawg=# select p.phone_number, m.data from message as m, person as p where m.
 --------------+-------
  7082997663   | bread
 (1 row)
+```
+
+# Building to AWS
+```
+Update buildspec.yml with the correct aws Account ID
+ - You need to to congure codeCommit/codeBuild see [here]() for details
+
+docker pull 131261850621.dkr.ecr.us-east-2.amazonaws.com/listomania:latest
+
+```
+
+# Running Docker Container
+```
+docker run --env-file .mycredentials.txt --name listomania -p 8080:8080 131261850621.dkr.ecr.us-east-2.amazonaws.com/listomania:latest
+
+#
+Test -> curl -X POST localhost:8080/list -H 'Content-type:application/json' -d '{"phoneNumber": "7081234567", "category": "groceries", "data": "milk"}'
+
 ```
