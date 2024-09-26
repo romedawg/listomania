@@ -47,7 +47,9 @@ export POSTGRES_PASSWORD=password
 
 For postgres connect -> psql -h localhost -p 5432 -U roman -d romedawg
 
-./gradlew build; java -jar  -Dspring.profiles.active=dev ./build/libs/listomania-0.0.1-SNAPSHOT.jar
+./gradlew build; java -jar  -Dspring.profiles.active=dev ./build/libs/listomania-1.0.0.jar
+
+java -jar  -Dspring.profiles.active=test ./build/libs/listomania-1.0.0.jar
 
 ```
 

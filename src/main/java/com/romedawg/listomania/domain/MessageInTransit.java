@@ -5,17 +5,15 @@ import jakarta.persistence.*;
 import java.time.LocalTime;
 
 @Entity
-@Table(name="message")
-public class Message {
+@Table(name="message_in_transit")
+public class MessageInTransit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne()
-    @JoinColumn(table = "message", name = "person_id", nullable = false)
-    private Person person;
+    private String phoneNumber;
 
     @Column(name = "category", nullable = false)
     private String category;
@@ -35,12 +33,12 @@ public class Message {
     /***
      * Constructor.
      */
-    public Message() {
+    public MessageInTransit() {
         // empty constructor
     }
 
-    public Message(Builder builder) {
-        this.person = builder.build().person;
+    public MessageInTransit(Builder builder) {
+        this.phoneNumber = builder.build().phoneNumber;
         this.category = builder.category;
         this.data = builder.data;
         this.owner = builder.owner;
@@ -48,8 +46,8 @@ public class Message {
         this.active = builder.active;
     }
 
-    public Message(Person person, String category, String data, String owner, LocalTime dateEntry, boolean active) {
-        this.person = person;
+    public MessageInTransit(String phoneNumber, String category, String data, String owner, LocalTime dateEntry, boolean active) {
+        this.phoneNumber = phoneNumber;
         this.category = category;
         this.data = data;
         this.owner = owner;
@@ -58,15 +56,15 @@ public class Message {
     }
 
     public static final class Builder {
-        private Person person;
+        private String phoneNumber;
         private String category;
         private String data;
         private LocalTime dateEntry;
         private String owner;
         private Boolean active;
 
-        public Builder setPerson(Person person) {
-            this.person = person;
+        public Builder setUser(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
             return this;
         }
 
@@ -95,8 +93,8 @@ public class Message {
             return this;
         }
 
-        public Message build(){
-            return new Message(this);
+        public MessageInTransit build(){
+            return new MessageInTransit(this);
         }
     }
 
@@ -108,16 +106,12 @@ public class Message {
         this.id = id;
     }
 
-    public Integer getPersonId() {
-        return Math.toIntExact(person.getId());
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getCategory() {
