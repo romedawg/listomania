@@ -36,7 +36,7 @@ public class LoadDatabase {
             log.info("DEFAULT USER EXISTS, SKIPPING : " + personLookup);
         }
 
-        List<Person> personObject = personRepository.findPerson(phoneNumber);
+        List<Person> personObject = personRepository.findPersonByPhoneNumberList(phoneNumber);
         return args -> {
             log.info("Preloading Message Table" + messageRepository.save( new Message(personObject.get(0), "groceries", "bread", "rome", localTime, true)));
         };

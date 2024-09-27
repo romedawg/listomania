@@ -37,4 +37,5 @@ class ListomaniaApplicationTests {
         messageRepository.save( new Message(person, "groceries", "bread", "rome", localTime, true));
 	}
 
+
 }

@@ -18,5 +18,5 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     List<Person> findPersonById(@Param("user_id") Integer user_id);
 
     @Query("SELECT p FROM Person p WHERE p.phoneNumber=(:phoneNumber)")
-    List<Person> findPerson(@Param("phoneNumber") String phoneNumber);
+    List<Person> findPersonByPhoneNumberList(@Param("phoneNumber") String phoneNumber);
 }
