@@ -22,6 +22,7 @@ class MessageController {
 
     @Autowired
     PersonRepository personRepository;
+    @Autowired
     MessageRepository messageRepository;
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
@@ -29,9 +30,6 @@ class MessageController {
     public String PostMessage(@RequestBody MessageInTransit message){
 
         log.info("Create Message for " + message.getCategory() + " phoneNumber: " +  message.getPhoneNumber() + " item: " + message.getData());
-
-        log.debug("New message, check if person exists");
-
         Integer personID = phoneNumberLookup(message.getPhoneNumber());
 
         message.setDateEntry(LocalTime.now());
@@ -43,13 +41,13 @@ class MessageController {
 
         // User does not exist here
         if ((personID == 0)) {
+            String ErrorMessage = String.format("%s does not exists, please sign up https://romedawg.com %n", message.getPhoneNumber());
             log.info(message.getPhoneNumber() + " does not exist");
-            // throw new UserNotFoundException(message.getPhoneNumber()); // does this buy us anything?
-            return message.getPhoneNumber() + " does not exists in our records, please sign up https://romedawg.com";
+            return ErrorMessage;
         }
 
         List<Person> personObject = personRepository.findPersonByPhoneNumberList(message.getPhoneNumber());
-        log.info("Creating a new message");
+        log.debug("Creating a new message");
         Message saveMessage = new Message();
         saveMessage.setActive(message.getActive());
         saveMessage.setPerson(personObject.get(0));
@@ -59,8 +57,8 @@ class MessageController {
         saveMessage.setOwner(message.getOwner());
 
         messageRepository.save(saveMessage);
-        log.debug("message created for " + message.getPhoneNumber());
-        return "success";
+        log.info("message created for " + message.getPhoneNumber());
+        return String.format("Success%n");
 
     }
 

@@ -2,6 +2,7 @@ package com.romedawg.listomania.controller;
 
 import com.romedawg.listomania.LoadDatabase;
 import com.romedawg.listomania.domain.Person;
+import com.romedawg.listomania.exception.UserNotFoundException;
 import com.romedawg.listomania.repository.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,11 +30,12 @@ public class UserController {
         Integer personID = personRepository.findPersonByPhoneNumber(phoneNumber);
 
         if (personID == null){
-            log.info("Phone number "+ phoneNumber + " does not exist");
-            return "Phone Number does not exist";
+            String message = String.format("Phone number: %s does not exist%n", phoneNumber);
+            log.info(message);
+            return message;
         }
         List<Person> person = personRepository.findPersonByPhoneNumberList(phoneNumber);
-        return "Phone number: " + person.get(0).getPhoneNumber() + " Email: " + person.get(0).getEmail() ;
+        return String.format("Phone number: %s Email: %s %n",  person.get(0).getPhoneNumber(),  person.get(0).getEmail() );
     }
 
 

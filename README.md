@@ -83,20 +83,24 @@ docker run --env-file .mycredentials.txt --name listomania -p 8080:8080 13126185
 
 ```
 
-# Testing
+# API Endpoint Operations & Testing
+## Messages
 ```
-GET
+GET Messages based on category
 curl -X GET localhost:8080/message/costco
 
-POST
+POST messages by phone number
 curl -X POST localhost:8080/list -H 'Content-type:application/json' -d '{"phoneNumber": "7081234567", "category": "groceries", "data": "milk"}'
 
-GET - User user
+
+```
+## User
+```
+GET - User user by phone number
 curl -X GET localhost:8080/user/7081234567
 
-POST - Sign up user
+POST - Sign up user by phone number
 curl -X POST localhost:8080/user -H 'Content-type:application/json' -d '{"phoneNumber": "7082997663", "email": "roman32@gmail.com"}'
-
 
 ```
 
