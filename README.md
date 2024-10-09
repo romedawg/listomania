@@ -81,7 +81,27 @@ docker pull 131261850621.dkr.ecr.us-east-2.amazonaws.com/listomania:latest
 ```
 docker run --env-file .mycredentials.txt --name listomania -p 8080:8080 131261850621.dkr.ecr.us-east-2.amazonaws.com/listomania:latest
 
-#
-Test -> curl -X POST localhost:8080/list -H 'Content-type:application/json' -d '{"phoneNumber": "7081234567", "category": "groceries", "data": "milk"}'
+```
+
+# API Endpoint Operations & Testing
+## Messages
+```
+GET Messages based on category
+curl -X GET localhost:8080/message/costco
+
+POST messages by phone number
+curl -X POST localhost:8080/list -H 'Content-type:application/json' -d '{"phoneNumber": "7081234567", "category": "groceries", "data": "milk"}'
+
 
 ```
+## User
+```
+GET - User user by phone number
+curl -X GET localhost:8080/user/7081234567
+
+POST - Sign up user by phone number
+curl -X POST localhost:8080/user -H 'Content-type:application/json' -d '{"phoneNumber": "7082997663", "email": "roman32@gmail.com"}'
+
+```
+
+# 
