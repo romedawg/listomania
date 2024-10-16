@@ -35,70 +35,18 @@ public class Message {
     /***
      * Constructor.
      */
-    public Message() {
+    protected Message() {
         // empty constructor
     }
 
-    public Message(Builder builder) {
-        this.person = builder.build().person;
-        this.category = builder.category;
-        this.data = builder.data;
-        this.owner = builder.owner;
-        this.dateEntry = builder.dateEntry;
-        this.active = builder.active;
-    }
-
-    public Message(Person person, String category, String data, String owner, LocalTime dateEntry, boolean active) {
+    protected Message(Person person, String category, String data, String owner, boolean active) {
         this.person = person;
         this.category = category;
         this.data = data;
         this.owner = owner;
-        this.dateEntry = dateEntry;
         this.active = active;
     }
 
-    public static final class Builder {
-        private Person person;
-        private String category;
-        private String data;
-        private LocalTime dateEntry;
-        private String owner;
-        private Boolean active;
-
-        public Builder setPerson(Person person) {
-            this.person = person;
-            return this;
-        }
-
-        public Builder setcategory(String category) {
-            this.category = category;
-            return this;
-        }
-
-        public Builder setData(String data) {
-            this.data = data;
-            return this;
-        }
-
-        public Builder setdateEntry(LocalTime dateEntry) {
-            this.dateEntry = dateEntry;
-            return this;
-        }
-
-        public Builder setOwner(String owner) {
-            this.owner = owner;
-            return this;
-        }
-
-        public Builder setActive(Boolean active) {
-            this.active = active;
-            return this;
-        }
-
-        public Message build(){
-            return new Message(this);
-        }
-    }
 
     public Long getId() {
         return id;
@@ -116,7 +64,7 @@ public class Message {
         return person;
     }
 
-    public void setPerson(Person person) {
+    protected void setPerson(Person person) {
         this.person = person;
     }
 
@@ -124,7 +72,7 @@ public class Message {
         return category;
     }
 
-    public void setCategory(String category) {
+    protected void setCategory(String category) {
         this.category = category;
     }
 
@@ -132,7 +80,7 @@ public class Message {
         return data;
     }
 
-    public void setData(String data) {
+    protected void setData(String data) {
         this.data = data;
     }
 
@@ -148,15 +96,15 @@ public class Message {
         return dateEntry;
     }
 
-    public void setDateEntry(LocalTime dateEntry) {
-        this.dateEntry = dateEntry;
+    public void setDateEntry(LocalTime time) {
+        this.dateEntry = time;
     }
 
     public boolean getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    protected void setActive(boolean active) {
         this.active = active;
     }
 }

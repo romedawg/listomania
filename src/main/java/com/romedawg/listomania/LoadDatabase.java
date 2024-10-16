@@ -1,7 +1,9 @@
 package com.romedawg.listomania;
 
 import com.romedawg.listomania.domain.Message;
+import com.romedawg.listomania.domain.MessageBuilder;
 import com.romedawg.listomania.domain.Person;
+import com.romedawg.listomania.domain.PersonBuilder;
 import com.romedawg.listomania.repository.MessageRepository;
 import com.romedawg.listomania.repository.PersonRepository;
 import org.slf4j.Logger;
@@ -24,21 +26,23 @@ public class LoadDatabase {
     CommandLineRunner initDatabase(MessageRepository messageRepository, PersonRepository personRepository){
         LocalTime localTime = LocalTime.now();
 
+
         String phoneNumber = "7081234567";
         String email = "JackBurton@gmail.com";
+        Person person = PersonBuilder.builder().addPhoneNumber(phoneNumber).addEmail(email).build();
         Integer personLookup = personRepository.findPersonByPhoneNumber(phoneNumber);
-        Person person = new Person(phoneNumber,email);
 
         if (Optional.ofNullable(personLookup).orElse(0) == 0){
-            log.info("user does not exist, adding them now");
+            log.info("Initial user Jack Burton does not exist, adding him now");
             personRepository.save(person);
         }else {
             log.info("DEFAULT USER EXISTS, SKIPPING : " + personLookup);
         }
 
         List<Person> personObject = personRepository.findPersonByPhoneNumberList(phoneNumber);
+        Message message = MessageBuilder.builder().addPerson(personObject.get(0)).addCategory("groceries").addData("bread").build();
         return args -> {
-            log.info("Preloading Message Table" + messageRepository.save( new Message(personObject.get(0), "groceries", "bread", "rome", localTime, true)));
+            log.info("Preloading Message Table" + messageRepository.save(message));
         };
     }
 }

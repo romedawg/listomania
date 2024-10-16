@@ -1,7 +1,9 @@
 package com.romedawg.listomania;
 
 import com.romedawg.listomania.domain.Message;
+import com.romedawg.listomania.domain.MessageBuilder;
 import com.romedawg.listomania.domain.Person;
+import com.romedawg.listomania.domain.PersonBuilder;
 import com.romedawg.listomania.repository.MessageRepository;
 import com.romedawg.listomania.repository.PersonRepository;
 import org.junit.jupiter.api.Test;
@@ -39,10 +41,27 @@ class ListomaniaApplicationTests {
 
     @Test
     void addUser(){
-        String phoneNumber = "1234567890";
-        String email = "ArtVandalay@gmail.com";
-        Person person = new Person(phoneNumber,email);
+
+        Person person = PersonBuilder.builder()
+                .addEmail("testemail.com")
+                .addPhoneNumber("1234567890").build();
         personRepository.save(person);
+    }
+
+    @Test
+    void addMessage(){
+        Person person = PersonBuilder.builder()
+                .addEmail("testemail.com")
+                .addPhoneNumber("7089991234").build();
+        personRepository.save(person);
+
+        List<Person> personLookup = personRepository.findPersonById(1234567890);
+        Message message = MessageBuilder.builder()
+                .addPerson(person)
+                .addCategory("groceries")
+                .addData("bread")
+                .build();
+        messageRepository.save(message);
     }
 
 //    @Test
