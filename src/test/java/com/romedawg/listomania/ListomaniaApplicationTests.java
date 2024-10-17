@@ -1,5 +1,6 @@
 package com.romedawg.listomania;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.romedawg.listomania.domain.Message;
 import com.romedawg.listomania.domain.MessageBuilder;
 import com.romedawg.listomania.domain.Person;
@@ -64,19 +65,12 @@ class ListomaniaApplicationTests {
         messageRepository.save(message);
     }
 
-//    @Test
-//    void checkUserExists() throws Exception{
-//        String phoneNumber = "1234567890";
-//
-//    }
 
-//	@Test
-//	void addMessage() {
-//        LocalTime localTime = LocalTime.now();
-//        String phoneNumber = "1234567890";
-//        List<Person> personLookup = personRepository.findPersonByPhoneNumberList(phoneNumber);
-//        messageRepository.save( new Message(personLookup.get(0), "groceries", "bread", "rome", localTime, true));
-//	}
+    @Test
+    void jsonLoad() {
+        ObjectMapper mapper = new ObjectMapper();
+
+    }
 
 
 }

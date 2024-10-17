@@ -1,6 +1,8 @@
 package com.romedawg.listomania.domain;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
+
 
 @Entity
 @Table(name="person")
@@ -9,14 +11,17 @@ public class Person {
     @ManyToOne
     @JoinColumn(name = "person_person_id")
     public Person person;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "person_id", nullable = false)
     private Long id;
 
+    @JsonView(View.PersonView.class)
     @Column(name = "phone_number", nullable = false, unique = true)
     private String phoneNumber;
 
+    @JsonView(View.PersonView.class)
     @Column(name = "email", nullable = false)
     private String email;
 
@@ -69,6 +74,5 @@ public class Person {
     public String getEmail() {
         return email;
     }
-
 
 }

@@ -1,5 +1,6 @@
 package com.romedawg.listomania.domain;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 
 import java.time.LocalTime;
@@ -12,7 +13,7 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-
+    
     @ManyToOne()
     @JoinColumn(table = "message", name = "person_id", nullable = false)
     private Person person;

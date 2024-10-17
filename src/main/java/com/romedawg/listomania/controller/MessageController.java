@@ -56,10 +56,11 @@ class MessageController {
     public String message(@PathVariable String category){
         List<String> list =  messageRepository.findMessagesByCategory(category);
         if (list.isEmpty()) {
-            log.debug("category " + category + " not found");
-            throw new CategoryNotFoundException(category);
+            String message = String.format("Category: %s does not exist%n", category);
+            logWrap(message);
+            return message;
         }
-        return list.toString();
+        return String.format("%s%n", list);
     }
 
     // Generic static category
