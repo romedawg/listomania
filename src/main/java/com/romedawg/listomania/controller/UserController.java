@@ -32,7 +32,7 @@ public class UserController {
 
         if (personID == null){
             String message = String.format("Phone number: %s does not exist%n", phoneNumber);
-            log.info(message);
+            logWrap(message);
             return message;
         }
         List<Person> person = personRepository.findPersonByPhoneNumberList(phoneNumber);
@@ -45,13 +45,17 @@ public class UserController {
         Integer personID = personRepository.findPersonByPhoneNumber(person.getPhoneNumber());
 
         if (personID != null){
-            log.info("Phone Number: " + person.getPhoneNumber() + " already exists");
+            logWrap("Phone Number: " + person.getPhoneNumber() + " already exists");
             return "Phone Number: " + person.getPhoneNumber() + " already exists";
         }
 
-        log.info("Creating new user with phone number: " + person.getPhoneNumber());
+        logWrap("Creating new user with phone number: " + person.getPhoneNumber());
         personRepository.save(PersonBuilder.builder().addPhoneNumber(person.getPhoneNumber()).addEmail(person.getEmail()).build());
 
         return String.format("success %n");
+    }
+
+    public void logWrap(String message) {
+        log.info("User Create: " + message);
     }
 }
