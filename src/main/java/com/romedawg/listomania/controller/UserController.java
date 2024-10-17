@@ -2,6 +2,7 @@ package com.romedawg.listomania.controller;
 
 import com.romedawg.listomania.LoadDatabase;
 import com.romedawg.listomania.domain.Person;
+import com.romedawg.listomania.domain.PersonBuilder;
 import com.romedawg.listomania.exception.UserNotFoundException;
 import com.romedawg.listomania.repository.PersonRepository;
 import org.slf4j.Logger;
@@ -48,9 +49,9 @@ public class UserController {
             return "Phone Number: " + person.getPhoneNumber() + " already exists";
         }
 
-        log.info("Creating Person for phone number: " + person.getPhoneNumber());
-        personRepository.save(new Person(person.getPhoneNumber(), person.getEmail()));
+        log.info("Creating new user with phone number: " + person.getPhoneNumber());
+        personRepository.save(PersonBuilder.builder().addPhoneNumber(person.getPhoneNumber()).addEmail(person.getEmail()).build());
 
-        return "success";
+        return String.format("success %n");
     }
 }

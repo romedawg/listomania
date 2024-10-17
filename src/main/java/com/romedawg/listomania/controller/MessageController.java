@@ -2,10 +2,10 @@ package com.romedawg.listomania.controller;
 
 import com.romedawg.listomania.LoadDatabase;
 import com.romedawg.listomania.domain.Message;
+import com.romedawg.listomania.domain.MessageBuilder;
 import com.romedawg.listomania.domain.MessageInTransit;
 import com.romedawg.listomania.domain.Person;
 import com.romedawg.listomania.exception.CategoryNotFoundException;
-import com.romedawg.listomania.exception.UserNotFoundException;
 import com.romedawg.listomania.repository.MessageRepository;
 import com.romedawg.listomania.repository.PersonRepository;
 import org.slf4j.Logger;
@@ -48,15 +48,12 @@ class MessageController {
 
         List<Person> personObject = personRepository.findPersonByPhoneNumberList(message.getPhoneNumber());
         log.debug("Creating a new message");
-        Message saveMessage = new Message();
-        saveMessage.setActive(message.getActive());
-        saveMessage.setPerson(personObject.get(0));
-        saveMessage.setCategory(message.getCategory());
-        saveMessage.setData(message.getData());
-        saveMessage.setDateEntry(LocalTime.now());
-        saveMessage.setOwner(message.getOwner());
+        Message messageCreate = MessageBuilder.builder()
+                .addData(message.getData())
+                .addCategory(message.getCategory())
+                .addPerson(personObject.get(0)).build();
 
-        messageRepository.save(saveMessage);
+        messageRepository.save(messageCreate);
         log.info("message created for " + message.getPhoneNumber());
         return String.format("Success%n");
 
@@ -79,7 +76,7 @@ class MessageController {
         return list.toString();
     }
 
-    private Integer phoneNumberLookup(String phoneNumber){
+    public Integer phoneNumberLookup(String phoneNumber){
 
         log.info("FindPerson with phone number " + phoneNumber);
         Integer personLookup = personRepository.findPersonByPhoneNumber(phoneNumber);

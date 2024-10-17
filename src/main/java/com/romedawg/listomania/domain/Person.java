@@ -6,6 +6,9 @@ import jakarta.persistence.*;
 @Table(name="person")
 public class Person {
 
+    @ManyToOne
+    @JoinColumn(name = "person_person_id")
+    public Person person;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "person_id", nullable = false)
@@ -17,34 +20,55 @@ public class Person {
     @Column(name = "email", nullable = false)
     private String email;
 
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
     public Person(String phoneNumber, String email) {
         this.phoneNumber = phoneNumber;
         this.email = email;
+
     }
     public Person(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    public Person() {
-    }
+    /**
+     * Protected constructor for the JPA framework.
+     * <p>
+     * Note: This constructor is not intended to be used directly.
+     * </p>
+     */
+    protected Person() {}
 
-    public Long getId() {
-        return id;
+    protected void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
+    protected void setEmail(String email) { this.email = email; }
 
+    public Long getId() { return id;}
+
+    /**
+     * Gets the phone number for this person.
+     *
+     * @return the phone number
+     */
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
+    /**
+     * Gets the email for this person.
+     *
+     * @return the email
+     */
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+
 }
