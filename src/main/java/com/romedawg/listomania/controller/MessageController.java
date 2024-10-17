@@ -32,17 +32,10 @@ class MessageController {
         log.info("Create Message for " + message.getCategory() + " phoneNumber: " +  message.getPhoneNumber() + " item: " + message.getData());
         Integer personID = phoneNumberLookup(message.getPhoneNumber());
 
-        message.setDateEntry(LocalTime.now());
-        // if the active category is not set, set it to true by default.
-        // maybe this should just be in the domain object(true by default) with the ability to update to false.
-        if (!message.getActive()){
-            message.setActive(true);
-        };
-
         // User does not exist here
         if ((personID == 0)) {
             String ErrorMessage = String.format("%s does not exists, please sign up https://romedawg.com %n", message.getPhoneNumber());
-            log.info(message.getPhoneNumber() + " does not exist");
+            logWrap(message.getPhoneNumber() + " does not exist");
             return ErrorMessage;
         }
 
@@ -54,7 +47,7 @@ class MessageController {
                 .addPerson(personObject.get(0)).build();
 
         messageRepository.save(messageCreate);
-        log.info("message created for " + message.getPhoneNumber());
+        logWrap("message created for " + message.getPhoneNumber());
         return String.format("Success%n");
 
     }
@@ -78,7 +71,7 @@ class MessageController {
 
     public Integer phoneNumberLookup(String phoneNumber){
 
-        log.info("FindPerson with phone number " + phoneNumber);
+        logWrap("FindPerson with phone number " + phoneNumber);
         Integer personLookup = personRepository.findPersonByPhoneNumber(phoneNumber);
 
         if (personLookup == null){
@@ -88,7 +81,9 @@ class MessageController {
         log.debug("phone number " + phoneNumber + " found");
 
         return personLookup;
+    }
 
-
+    public void logWrap(String message) {
+        log.info("Message Create: " + message);
     }
 }
