@@ -92,8 +92,10 @@ curl -X GET localhost:8080/message/costco
 POST messages by phone number
 curl -X POST localhost:8080/list -H 'Content-type:application/json' -d '{"phoneNumber": "7081234567", "category": "groceries", "data": "milk"}'
 
-
+GET Messages based on phone number
+curl -X GET localhost:8080/messages/7082997663
 ```
+
 ## User
 ```
 GET - User user by phone number
@@ -103,5 +105,3 @@ POST - Sign up user by phone number
 curl -X POST localhost:8080/user -H 'Content-type:application/json' -d '{"phoneNumber": "7082997663", "email": "roman32@gmail.com"}'
 
 ```
-
-# 

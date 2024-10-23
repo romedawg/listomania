@@ -64,12 +64,12 @@ class MessageController {
     }
 
     // Generic static category
-    @GetMapping("/listy")
-    public String message(){
+    @GetMapping("/messages/{phoneNumber}")
+    public String getMessages(@PathVariable String phoneNumber){
         logWrap("look up a list by phone number");
-        List<Person> personObject = personRepository.findPersonByPhoneNumberList("7082997663");
+        List<Person> personObject = personRepository.findPersonByPhoneNumberList(phoneNumber);
         if (personObject.isEmpty()) {
-            String message =String.format("Phone number: 7082997663 does not exist%n");
+            String message =String.format("Phone number: %s does not exist%n", phoneNumber);
             logWrap(message);
             return String.format(message);
         }
