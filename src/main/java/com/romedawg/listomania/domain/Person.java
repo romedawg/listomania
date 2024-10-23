@@ -8,9 +8,8 @@ import jakarta.persistence.*;
 @Table(name="person")
 public class Person {
 
-    @ManyToOne
-    @JoinColumn(name = "person_person_id")
-    public Person person;
+//    @ManyToOne
+//    public Person person;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,11 +25,7 @@ public class Person {
     private String email;
 
     public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
+        return null;
     }
 
     public Person(String phoneNumber, String email) {
