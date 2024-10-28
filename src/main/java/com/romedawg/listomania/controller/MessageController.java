@@ -5,7 +5,6 @@ import com.romedawg.listomania.domain.Message;
 import com.romedawg.listomania.domain.MessageBuilder;
 import com.romedawg.listomania.domain.MessageInTransit;
 import com.romedawg.listomania.domain.Person;
-import com.romedawg.listomania.exception.CategoryNotFoundException;
 import com.romedawg.listomania.repository.MessageRepository;
 import com.romedawg.listomania.repository.PersonRepository;
 import org.slf4j.Logger;
@@ -13,9 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @RestController()
 class MessageController {
@@ -39,14 +38,13 @@ class MessageController {
             return ErrorMessage;
         }
 
-        List<Person> personObject = personRepository.findPersonByPhoneNumberList(message.getPhoneNumber());
-        log.debug("Creating a new message");
-        Message messageCreate = MessageBuilder.builder()
-                .addData(message.getData())
-                .addCategory(message.getCategory())
-                .addPerson(personObject.get(0)).build();
+        if (message.getCategory() == null || message.getData() == null){
+            String returnMessage = String.format("Category & Data cannot be null%n", message.getCategory());
+            logWrap(returnMessage);
+            return returnMessage;
+        }
 
-        messageRepository.save(messageCreate);
+        createMessages(message);
         logWrap("message created for " + message.getPhoneNumber());
         return String.format("Success%n");
 
@@ -74,8 +72,16 @@ class MessageController {
             return String.format(message);
         }
         List<String> list =  messageRepository.findMessagesByCategoryPersonId("groceries", personObject.get(0).getId().intValue());
-        return list.toString();
+        return String.format("%s%n", list.toString());
+
     }
+
+    // Utility functions
+    /***
+     *
+     * @param phoneNumber
+     * @return Integor - ID of the Person
+     */
 
     public Integer phoneNumberLookup(String phoneNumber){
 
@@ -91,7 +97,34 @@ class MessageController {
         return personLookup;
     }
 
-    public void logWrap(String message) {
-        log.info("Message Create: " + message);
+    private void createMessages(MessageInTransit message) {
+        logWrap("Create Messages");
+
+        log.debug("Creating a new message");
+        List<Person> personObject = personRepository.findPersonByPhoneNumberList(message.getPhoneNumber());
+
+        List<String> messageData = parseString(message.getData());
+
+        for (String data : messageData) {
+            Message messageCreate = MessageBuilder.builder()
+                    .addData(data)
+                    .addCategory(message.getCategory())
+                    .addPerson(personObject.get(0)).build();
+            messageRepository.save(messageCreate);
+        }
+
+    }
+
+    // Parse list of items that are seperated by space/comma/newline char
+    private List<String> parseString(String data){
+
+        logWrap("Parse multiple data messages");
+        List<String> dataList = new ArrayList<>(Arrays.asList(data.split(" ")));
+
+        return dataList;
+    }
+
+    private void logWrap(String message) {
+        log.info("Message Controller: " + message);
     }
 }

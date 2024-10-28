@@ -33,10 +33,8 @@ class ListomaniaApplicationTests {
     @Autowired
     MockMvc mvc;
 
-//    @MockBean
     @Autowired
     private MessageRepository messageRepository;
-//    @MockBean
     @Autowired
     private PersonRepository personRepository;
 
@@ -44,7 +42,7 @@ class ListomaniaApplicationTests {
     void addUser(){
 
         Person person = PersonBuilder.builder()
-                .addEmail("testemail.com")
+                .addEmail("testmail.com")
                 .addPhoneNumber("1234567890").build();
         personRepository.save(person);
     }
@@ -52,11 +50,10 @@ class ListomaniaApplicationTests {
     @Test
     void addMessage(){
         Person person = PersonBuilder.builder()
-                .addEmail("testemail.com")
+                .addEmail("testmail.com")
                 .addPhoneNumber("7089991234").build();
         personRepository.save(person);
 
-        List<Person> personLookup = personRepository.findPersonById(1234567890);
         Message message = MessageBuilder.builder()
                 .addPerson(person)
                 .addCategory("groceries")
@@ -69,8 +66,9 @@ class ListomaniaApplicationTests {
     @Test
     void jsonLoad() {
         ObjectMapper mapper = new ObjectMapper();
-
     }
+
+    // simulate rest api tests
 
 
 }

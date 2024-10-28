@@ -3,19 +3,19 @@
 ## TOP DAWG
  - Create users dynamicaly or through UI/Cognito/CLI
    - Verification
- - 
 
 # Message Controller
-- In Progress - Get list of objects
+- DONE - >In Progress - Get list of objects
   - Active
-- TODO - Put into a list -> need to call a function that parses list
+- TODO - List of items
+  -> need to call a function that parses list
 - Share list with someone on phone number
   - allow them to pull/push to list
 - Sign up!!!
   - Cognito sign up
 
 put new list
-- lookup or create category
+- DONE -> lookup or create category
     - by phone number
 
 # Domain Objects
@@ -23,6 +23,14 @@ put new list
    - name, email, phone_number, verification
 
 # Testing
- - h2 for dev profile
+ - DONE -> h2 for dev profile
  - input tests
  - parse a list of object(non json)
+
+Cognito Design
+
+SNS/Lambda interaction
+
+1. Messages comes to twilio/SNS/Other
+   2. Message is sent to Lambda
+   3. Lambda takes itemsk
