@@ -19,4 +19,7 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
 
     @Query("SELECT p FROM Person p WHERE p.phoneNumber=(:phoneNumber)")
     List<Person> findPersonByPhoneNumberList(@Param("phoneNumber") String phoneNumber);
+
+    @Query("SELECT m.category FROM Message m JOIN Person p ON m.person.id=p.id WHERE p.phoneNumber=(:phoneNumber)")
+    List<String> findCategoryByPhoneNumberList(@Param("phoneNumber") String phoneNumber);
 }

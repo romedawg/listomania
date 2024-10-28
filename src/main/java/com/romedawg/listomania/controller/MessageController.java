@@ -5,7 +5,6 @@ import com.romedawg.listomania.domain.Message;
 import com.romedawg.listomania.domain.MessageBuilder;
 import com.romedawg.listomania.domain.MessageInTransit;
 import com.romedawg.listomania.domain.Person;
-import com.romedawg.listomania.exception.CategoryNotFoundException;
 import com.romedawg.listomania.repository.MessageRepository;
 import com.romedawg.listomania.repository.PersonRepository;
 import org.slf4j.Logger;
@@ -13,9 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @RestController()
 class MessageController {
@@ -39,20 +38,19 @@ class MessageController {
             return ErrorMessage;
         }
 
-        List<Person> personObject = personRepository.findPersonByPhoneNumberList(message.getPhoneNumber());
-        log.debug("Creating a new message");
-        Message messageCreate = MessageBuilder.builder()
-                .addData(message.getData())
-                .addCategory(message.getCategory())
-                .addPerson(personObject.get(0)).build();
+        if (message.getCategory() == null || message.getData() == null){
+            String returnMessage = String.format("Category & Data cannot be null%n");
+            logWrap(returnMessage);
+            return returnMessage;
+        }
 
-        messageRepository.save(messageCreate);
+        createMessages(message);
         logWrap("message created for " + message.getPhoneNumber());
         return String.format("Success%n");
 
     }
 
-    @GetMapping("/message/{category}")
+    @GetMapping("/list/{category}")
     public String message(@PathVariable String category){
         List<String> list =  messageRepository.findMessagesByCategory(category);
         if (list.isEmpty()) {
@@ -63,9 +61,9 @@ class MessageController {
         return String.format("%s%n", list);
     }
 
-    // Generic static category
-    @GetMapping("/messages/{phoneNumber}")
-    public String getMessages(@PathVariable String phoneNumber){
+    // Generic static category  // Should return list of categories(i.e groceries, costco, etc)
+    @GetMapping("/{category}/{phoneNumber}")
+    public String getMessage(@PathVariable String category, @PathVariable String phoneNumber){
         logWrap("look up a list by phone number");
         List<Person> personObject = personRepository.findPersonByPhoneNumberList(phoneNumber);
         if (personObject.isEmpty()) {
@@ -73,10 +71,30 @@ class MessageController {
             logWrap(message);
             return String.format(message);
         }
-        List<String> list =  messageRepository.findMessagesByCategoryPersonId("groceries", personObject.get(0).getId().intValue());
-        return list.toString();
+        List<String> list =  messageRepository.findMessagesByCategoryPersonId(category, personObject.get(0).getId().intValue());
+        return String.format("%s%n", list.toString());
     }
 
+    // Return a list of categories for a phone number
+    @GetMapping("/list_set/{phoneNumber}")
+    public String getMyLists(@PathVariable String phoneNumber){
+        logWrap("look type of lists by phone number");
+        List<String> categoryList = personRepository.findCategoryByPhoneNumberList(phoneNumber);
+        if (categoryList.isEmpty()) {
+            String message =String.format("No categories for phone number: %s%n", phoneNumber);
+            logWrap(message);
+            return String.format(message);
+        }
+        return String.format("%s%n", categoryList);
+    }
+
+
+    // Utility functions
+    /***
+     *
+     * @param phoneNumber
+     * @return Integor - ID of the Person
+     */
     public Integer phoneNumberLookup(String phoneNumber){
 
         logWrap("FindPerson with phone number " + phoneNumber);
@@ -91,7 +109,33 @@ class MessageController {
         return personLookup;
     }
 
-    public void logWrap(String message) {
-        log.info("Message Create: " + message);
+    private void createMessages(MessageInTransit message) {
+        logWrap("Create Messages");
+
+        log.debug("Creating a new message");
+        List<Person> personObject = personRepository.findPersonByPhoneNumberList(message.getPhoneNumber());
+
+        List<String> messageData = parseString(message.getData());
+
+        for (String data : messageData) {
+            Message messageCreate = MessageBuilder.builder()
+                    .addData(data)
+                    .addCategory(message.getCategory())
+                    .addPerson(personObject.get(0)).build();
+            messageRepository.save(messageCreate);
+        }
+
+    }
+
+    // Parse list of items that are seperated by space/comma/newline char
+    private List<String> parseString(String data){
+
+        logWrap("Parse multiple data messages");
+
+        return new ArrayList<>(Arrays.asList(data.split(",|\\s|\\n")));
+    }
+
+    private void logWrap(String message) {
+        log.info("Message Controller: " + message);
     }
 }

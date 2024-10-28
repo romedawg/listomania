@@ -51,12 +51,15 @@ For postgres connect -> psql -h localhost -p 5432 -U roman -d romedawg
 
 java -jar  -Dspring.profiles.active=test ./build/libs/listomania-1.0.0.jar
 
+// DOCKER Build
+docker build --build-arg VERSION=1.0.0 --build-arg PROFILE=dev -t listomania .
+
 ```
 
 # Testing
 ```
 ## GET
-curl -v localhost:8080/message/groceries
+curl -v localhost:8080/list/groceries
 
 ## POST
 curl -X POST localhost:8080/list -H 'Content-type:application/json' -d '{"phoneNumber": "7082997663", "category": "groceries", "data": "milk"}'
@@ -80,6 +83,7 @@ docker pull 131261850621.dkr.ecr.us-east-2.amazonaws.com/listomania:latest
 # Running Docker Container
 ```
 docker run --env-file .mycredentials.txt --name listomania -p 8080:8080 131261850621.dkr.ecr.us-east-2.amazonaws.com/listomania:latest
+docker run --env-file .mycredentials.txt --name listomania -p 8080:8080 listomania:latest
 
 ```
 
@@ -87,13 +91,15 @@ docker run --env-file .mycredentials.txt --name listomania -p 8080:8080 13126185
 ## Messages
 ```
 GET Messages based on category
-curl -X GET localhost:8080/message/costco
+curl -v localhost:8080/list/groceries
+curl -X GET localhost:8080/list/costco
 
 POST messages by phone number
 curl -X POST localhost:8080/list -H 'Content-type:application/json' -d '{"phoneNumber": "7081234567", "category": "groceries", "data": "milk"}'
+curl -X POST localhost:8080/list -H 'Content-type:application/json' -d '{"phoneNumber": "7081234567", "category": "home depot", "data": "lights"}'
 
 GET Messages based on phone number
-curl -X GET localhost:8080/messages/7082997663
+curl -X GET localhost:8080/mylist/7082997663
 ```
 
 ## User
