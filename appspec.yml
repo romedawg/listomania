@@ -1,0 +1,24 @@
+version: 0.0
+os: Ubuntu Server
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: "arn:aws:ecs:us-east-2:131261850621:task-definition/rome-list:1"
+        LoadBalancerInfo:
+          ContainerName: "ecs-container-name"
+          ContainerPort: "ecs-application-port"
+        # Optional properties
+        PlatformVersion: "ecs-service-platform-version"
+        NetworkConfiguration:
+          AwsvpcConfiguration:
+            Subnets: ["subnet-0959d5749c235194c","subnet-06ded2a7f1233bc2b"]
+            SecurityGroups: ["sg-06b41f9e29c502763"]
+            AssignPublicIp: "DISABLED"
+        CapacityProviderStrategy:
+          - Base: integer
+            CapacityProvider: 1
+            Weight: integer
+          - Base: integer
+            CapacityProvider: 1
+            Weight: integer

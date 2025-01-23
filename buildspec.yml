@@ -13,6 +13,7 @@ phases:
       java: corretto17
     commands:
       - pip3 install -q awscli --user
+
   pre_build:
     commands:
       - echo Running tests
@@ -27,6 +28,7 @@ phases:
       ##- docker pull $IMAGE_REPO_NAME:$IMAGE_TAG
       ### Creating the ECR repository
       - aws ecr describe-repositories --repository-names ${IMAGE_REPO_NAME} || aws ecr create-repository --repository-name ${IMAGE_REPO_NAME}
+
   build:
     commands:
       ### Building the image
@@ -34,6 +36,7 @@ phases:
       - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG --build-arg PROFILE=test --build-arg VERSION=1.0.0 .
       - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
       - echo Build completed on `date`
+
   post_build:
     commands:
       ### Publish the docker image to ECR
