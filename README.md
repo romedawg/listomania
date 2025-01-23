@@ -56,21 +56,6 @@ docker build --build-arg VERSION=1.0.0 --build-arg PROFILE=dev -t listomania .
 
 ```
 
-# Testing
-```
-## GET
-curl -v localhost:8080/list/groceries
-
-## POST
-curl -X POST localhost:8080/list -H 'Content-type:application/json' -d '{"phoneNumber": "7082997663", "category": "groceries", "data": "milk"}'
-
-romedawg=# select p.phone_number, m.data from message as m, person as p where m.person_id = p.person_id AND m.active = true;
- phone_number | data
---------------+-------
- 7082997663   | bread
-(1 row)
-```
-
 # Building to AWS
 ```
 Update buildspec.yml with the correct aws Account ID
@@ -110,4 +95,19 @@ curl -X GET localhost:8080/user/7081234567
 POST - Sign up user by phone number
 curl -X POST localhost:8080/user -H 'Content-type:application/json' -d '{"phoneNumber": "7082997663", "email": "roman32@gmail.com"}'
 
+```
+
+# Testing
+```
+## GET
+curl -v localhost:8080/list/groceries
+
+## POST
+curl -X POST localhost:8080/list -H 'Content-type:application/json' -d '{"phoneNumber": "7082997663", "category": "groceries", "data": "milk"}'
+
+romedawg=# select p.phone_number, m.data from message as m, person as p where m.person_id = p.person_id AND m.active = true;
+ phone_number | data
+--------------+-------
+ 7082997663   | bread
+(1 row)
 ```
