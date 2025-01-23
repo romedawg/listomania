@@ -39,7 +39,7 @@ class MessageController {
         }
 
         if (message.getCategory() == null || message.getData() == null){
-            String returnMessage = String.format("Category & Data cannot be null%n", message.getCategory());
+            String returnMessage = String.format("Category & Data cannot be null%n");
             logWrap(returnMessage);
             return returnMessage;
         }
@@ -50,7 +50,7 @@ class MessageController {
 
     }
 
-    @GetMapping("/message/{category}")
+    @GetMapping("/list/{category}")
     public String message(@PathVariable String category){
         List<String> list =  messageRepository.findMessagesByCategory(category);
         if (list.isEmpty()) {
@@ -61,9 +61,9 @@ class MessageController {
         return String.format("%s%n", list);
     }
 
-    // Generic static category
-    @GetMapping("/messages/{phoneNumber}")
-    public String getMessages(@PathVariable String phoneNumber){
+    // Generic static category  // Should return list of categories(i.e groceries, costco, etc)
+    @GetMapping("/{category}/{phoneNumber}")
+    public String getMessage(@PathVariable String category, @PathVariable String phoneNumber){
         logWrap("look up a list by phone number");
         List<Person> personObject = personRepository.findPersonByPhoneNumberList(phoneNumber);
         if (personObject.isEmpty()) {
@@ -71,10 +71,23 @@ class MessageController {
             logWrap(message);
             return String.format(message);
         }
-        List<String> list =  messageRepository.findMessagesByCategoryPersonId("groceries", personObject.get(0).getId().intValue());
+        List<String> list =  messageRepository.findMessagesByCategoryPersonId(category, personObject.get(0).getId().intValue());
         return String.format("%s%n", list.toString());
-
     }
+
+    // Return a list of categories for a phone number
+    @GetMapping("/list_set/{phoneNumber}")
+    public String getMyLists(@PathVariable String phoneNumber){
+        logWrap("look type of lists by phone number");
+        List<String> categoryList = personRepository.findCategoryByPhoneNumberList(phoneNumber);
+        if (categoryList.isEmpty()) {
+            String message =String.format("No categories for phone number: %s%n", phoneNumber);
+            logWrap(message);
+            return String.format(message);
+        }
+        return String.format("%s%n", categoryList);
+    }
+
 
     // Utility functions
     /***
@@ -82,7 +95,6 @@ class MessageController {
      * @param phoneNumber
      * @return Integor - ID of the Person
      */
-
     public Integer phoneNumberLookup(String phoneNumber){
 
         logWrap("FindPerson with phone number " + phoneNumber);
@@ -119,9 +131,8 @@ class MessageController {
     private List<String> parseString(String data){
 
         logWrap("Parse multiple data messages");
-        List<String> dataList = new ArrayList<>(Arrays.asList(data.split(" ")));
 
-        return dataList;
+        return new ArrayList<>(Arrays.asList(data.split(",|\\s|\\n")));
     }
 
     private void logWrap(String message) {

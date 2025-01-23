@@ -1,18 +1,22 @@
 ## Things to do
 
 ## TOP DAWG
- - Create users dynamicaly or through UI/Cognito/CLI
+ - Create users Dynamicaly or through UI/Cognito/CLI
    - Verification
 
 # Message Controller
 - DONE - >In Progress - Get list of objects
   - Active
-- TODO - List of items
+- DONE - List of items
   -> need to call a function that parses list
+
+## Message Model
 - Share list with someone on phone number
   - allow them to pull/push to list
-- Sign up!!!
-  - Cognito sign up
+
+## Clean up
+- Reset list
+- Remove items from list
 
 put new list
 - DONE -> lookup or create category
