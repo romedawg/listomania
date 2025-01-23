@@ -132,7 +132,7 @@ class MessageController {
 
         logWrap("Parse multiple data messages");
 
-        return new ArrayList<>(Arrays.asList(data.split(",|\\s|\\n")));
+        return new ArrayList<>(Arrays.asList(data.split("|\\s|\\n")));
     }
 
     private void logWrap(String message) {
