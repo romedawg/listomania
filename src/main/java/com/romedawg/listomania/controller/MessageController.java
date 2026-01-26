@@ -93,7 +93,7 @@ class MessageController {
     /***
      *
      * @param phoneNumber
-     * @return Integor - ID of the Person
+     * @return Integer - ID of the Person
      */
     public Integer phoneNumberLookup(String phoneNumber){
 
@@ -132,7 +132,7 @@ class MessageController {
 
         logWrap("Parse multiple data messages");
 
-        return new ArrayList<>(Arrays.asList(data.split("|\\s|\\n")));
+        return new ArrayList<>(Arrays.asList(data.split(", ")));
     }
 
     private void logWrap(String message) {
