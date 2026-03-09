@@ -1,5 +1,5 @@
 #Download base image ubuntu 20.04
-FROM ubuntu:22.04 as builder
+FROM ubuntu:22.04
 
 LABEL maintaier="admin@romedawg.com"
 LABEL description="This is custom Docker Image for romedawg.com"
@@ -20,6 +20,7 @@ ENV NEW_RELIC_LABELS=listomania
 COPY /build/libs/listomania-${VERSION}.jar ${JAVA_JAR_FILE}
 COPY /newrelic "${NEW_RELIC_HOME}"
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+COPY docker-healthcheck.sh /usr/local/bin/docker-healthcheck.sh
 WORKDIR /opt/
 
 RUN set -x \
@@ -27,6 +28,8 @@ RUN set -x \
   && apt-get install -y openjdk-17-jdk openjdk-17-jre \
   && apt-get install -y gettext \
   && rm -rf /var/cache/*
+
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Basic
 #CMD ["java", "-jar", "-Dspring.profiles.active=dev", "/opt/romedawg.jar"]

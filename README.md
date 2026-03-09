@@ -45,6 +45,12 @@ export POSTGRES_DATABASE=romedawg
 export POSTGRES_USERNAME=roman
 export POSTGRES_PASSWORD=password
 
+# MySQL
+export POSTGRES_HOST=mysql
+export POSTGRES_DATABASE=romedawg
+export POSTGRES_USERNAME=admin
+export POSTGRES_PASSWORD=password
+
 For postgres connect -> psql -h localhost -p 5432 -U roman -d romedawg
 
 ./gradlew build; java -jar  -Dspring.profiles.active=dev ./build/libs/listomania-1.0.0.jar
@@ -63,6 +69,7 @@ curl -v localhost:8080/list/groceries
 
 ## POST
 curl -X POST localhost:8080/list -H 'Content-type:application/json' -d '{"phoneNumber": "7082997663", "category": "groceries", "data": "milk"}'
+curl -X POST rome.dev.internal.gohealth.net/list -H 'Content-type:application/json' -d '{"phoneNumber": "7082997663", "category": "groceries", "data": "milk"}'
 
 romedawg=# select p.phone_number, m.data from message as m, person as p where m.person_id = p.person_id AND m.active = true;
  phone_number | data
@@ -109,5 +116,7 @@ curl -X GET localhost:8080/user/7081234567
 
 POST - Sign up user by phone number
 curl -X POST localhost:8080/user -H 'Content-type:application/json' -d '{"phoneNumber": "7082997663", "email": "roman32@gmail.com"}'
+curl -X POST rome.dev.internal.gohealth.net/user -H 'Content-type:application/json' -d '{"phoneNumber": "7082997663", "email": "roman32@gmail.com"}'
+
 
 ```

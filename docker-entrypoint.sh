@@ -3,7 +3,7 @@
 set -ux
 set -o pipefail
 
-HEAP_MEMORY=${HEAP_MEMORY:-6144m}
+HEAP_MEMORY=${HEAP_MEMORY:-2048m}
 STACK_SIZE=${STACK_SIZE:-4m}
 NEW_RELIC_CONFIG_TEMPLATE="${NEW_RELIC_HOME}/templates/newrelic.yml.tmpl"
 NEW_RELIC_CONFIG="${NEW_RELIC_HOME}/newrelic.yml"
@@ -32,14 +32,14 @@ JAVA_OPTS+=("-XX:+ParallelRefProcEnabled")
 JAVA_OPTS+=("-Dspring.profiles.active=${PROFILE}")
 
 SETUP_DIR="/var/logs"
-SETUP_LOG="/var/logs/setup.log"
-
-mkdir -p "${SETUP_DIR}"
-echo -n '' > "${SETUP_LOG}" # truncate the file which can possibly be not empty
-
-echo "BEFORE SETUP ################################"
-
-/usr/local/bin/setup.sh $$ | tee "${SETUP_LOG}" &
+#SETUP_LOG="/var/logs/setup.log"
+#
+#mkdir -p "${SETUP_DIR}"
+#echo -n '' > "${SETUP_LOG}" # truncate the file which can possibly be not empty
+#
+#echo "BEFORE SETUP ################################"
+#
+#/usr/local/bin/setup.sh $$ | tee "${SETUP_LOG}" &
 
 echo "Start from ${JAVA_JAR_FILE}"
 
