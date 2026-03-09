@@ -28,8 +28,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-//	runtimeOnly 'org.postgresql:postgresql'
-	implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.5'
+
+	// implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.5'
+
+	implementation("com.mysql:mysql-connector-j:9.5.0")
+	implementation("software.amazon.jdbc:aws-advanced-jdbc-wrapper:3.1.0")
+
 //	implementation 'org.liquibase:liquibase-core'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
@@ -40,6 +44,7 @@ dependencies {
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.18.0'
 
 	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'com.mysql:mysql-connector-j'
 }
 
 tasks.named('test') {
