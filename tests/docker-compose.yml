@@ -1,0 +1,56 @@
+version: '2.1'
+services:
+
+#    test-logger:
+#      image: alpine
+#      depends_on:
+#        fluent-bit:
+#          condition: service_started
+#      logging:
+#        driver: fluentd
+#        options:
+#          fluentd-address: "127.0.0.1:24224"
+#          fluentd-async: "true"
+#      volumes:
+#        - ./test-logger:/test-logger
+#      command: sh /test-logger/entrypoint.sh
+  mysql:
+    image: dhi.io/mysql:8.0
+    hostname: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    command: mysqld
+    ports:
+      - 3306:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  listomania:
+    image: listomania
+    hostname: listomania
+    environment:
+      POSTGRES_HOST: tests-mysql-1
+      POSTGRES_DATABASE: rome
+      POSTGRES_USERNAME: root
+      POSTGRES_PASSWORD: password
+    logging:
+      driver: fluentd
+      options:
+#        fluentd-address: "127.0.0.1:24224"
+        fluentd-address: "10.38.66.118:24224"
+#        fluentd-address: "127.0.0.1:5170"
+    ports:
+      - 8081:8081
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
+      interval: 5s
+      timeout: 3s
+
+
+
